@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BookStoreRazor</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BookStoreRazor.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-darl box-shadow mb-3 @(Context.Request.Cookies["role"] == "Admin" ? "bg-dark text-white" : "bg-primary text-white")">
+            <div class="container">
+
+				   @if (Context.Request.Cookies["role"] != null)
+                {
+                    <p>ADMIN</p>
+
+                }
+
+                <a class="navbar-brand text-white-50" asp-area="" asp-page="/Index">BookStoreRazor</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        @if (Context.Request.Cookies["role"] != null)
+                        {
+                            var role = Context.Request.Cookies["role"]; // Lấy role từ cookie
+
+                            @* Nếu role là Admin *@
+                            if (role == "Admin")
+                            {
+								 <li class="nav-item">
+                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Products/Index">Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Categories/Index">Categories</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Users/Index">Users</a>
+                                </li>
+								 <li class="nav-item">
+     <a class="nav-link text-white" asp-area="" asp-page="/Account/Logout">Logout</a>
+ </li>
+                            }
+                            else
+                            {
+                                @* Các đường dẫn khi không phải Admin *@
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Home/Index">Home</a>
+                                </li>
+								 <li class="nav-item">
+                                     <a class="nav-link text-white" asp-area="" asp-page="/Orders/Index">Order Manager</a>
+                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Account/Manage">Account Manager</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Account/Logout">Logout</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            @* Navbar khi chưa đăng nhập *@
+                            <li class="nav-item">
+                                <a class="nav-link text-white text-white" asp-area="" asp-page="/Account/Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-page="/Account/Register">Sign Up</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            &copy; 2024 - BookStoreRazor - <a class="text-primary" asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
